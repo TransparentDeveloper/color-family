@@ -1,0 +1,27 @@
+{
+  "name": "color-family",
+  "version": "0.0.1",
+  "description": "Provides a range of color families for application design.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -fr dist/* && tsc -p tsconfig-esm.json && tsc -p tsconfig-cjs.json && bash ./fixup.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TransparentDeveloper/color-family.git"
+  },
+  "keywords": [
+    "react",
+    "vue",
+    "color",
+    "random",
+    "css"
+  ],
+  "author": "yunshin <2younsin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TransparentDeveloper/color-family/issues"
+  },
+  "homepage": "https://github.com/TransparentDeveloper/color-family#readme"
+}
