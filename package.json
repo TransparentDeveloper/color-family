@@ -1,9 +1,19 @@
 {
   "name": "color-family",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Provides a range of color families for application design.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    }
+  },
   "scripts": {
     "build": "rm -fr dist/* && tsc -p tsconfig-esm.json && tsc -p tsconfig-cjs.json && bash ./fixup.sh"
   },
@@ -16,12 +26,16 @@
     "vue",
     "color",
     "random",
-    "css"
+    "css",
+    "color family"
   ],
   "author": "yunshin <2younsin@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TransparentDeveloper/color-family/issues"
   },
-  "homepage": "https://github.com/TransparentDeveloper/color-family#readme"
+  "homepage": "https://github.com/TransparentDeveloper/color-family#readme",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
 }
