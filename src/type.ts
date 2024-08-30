@@ -3,7 +3,7 @@ export type HexCode8 = `#${string}`;
 export type HexCode = HexCode6 | HexCode8
 
 export type BaseColor = "red" | "orange" | "yellow" | "green" | "blue" | "indigo" | "purple"
-export type ColorFamily = "pascal" | "vivid" | "metallic" | "neon" | "monochrome" | "earth-tone"
+export type ColorFamily = "pastel" | "vivid" | "metallic" | "neon" | "monochrome" | "earth-tone"
 
 export type RGBA = {
   r: number
@@ -11,3 +11,11 @@ export type RGBA = {
   b: number
   a: number
 }
+export type HSLA = {
+  h: number
+  s: number
+  l: number
+  a: number
+}
+
+export type FormatOptions = ""
