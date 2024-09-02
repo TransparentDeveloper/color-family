@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020", 
+    "target": "es2020",
     "lib": ["es2020"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -12,6 +12,8 @@
     "listFiles": false,
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
+    "noUnusedVariables": true,
+    "noImplicitAny": true,
     "pretty": true,
     "resolveJsonModule": true,
     "rootDir": "src",
