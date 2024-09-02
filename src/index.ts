@@ -1,6 +1,27 @@
 import { isBaseColor, isHexCode6, isHexCode8, isUndefined } from "./functions/type-guard";
 import { convertHexCode6To8, convertHexToRGBA, convertHSLAToRGBA, convertRGBAToHex, convertRGBAToHSLA, generateRandomHexCode8, getMinimum } from "./functions/util";
-import { BaseColor, HexCode6, HexCode8 } from "./type";
+
+export type HexCode6 = `#${string}`;
+export type HexCode8 = `#${string}`;
+export type HexCode = HexCode6 | HexCode8
+
+export type BaseColor = "red" | "orange" | "yellow" | "green" | "blue" | "indigo" | "purple"
+export type ColorFamily = "pastel" | "vivid" | "metallic" | "neon" | "monochrome" | "earth-tone"
+
+export type RGBA = {
+  r: number
+  g: number
+  b: number
+  a: number
+}
+export type HSLA = {
+  h: number
+  s: number
+  l: number
+  a: number
+}
+
+export type FormatOptions = ""
 
 const BASE_COLOR_CODE_MAP: Record<BaseColor, HexCode8> = {
   red: "#FF0000FF",    

@@ -1,4 +1,4 @@
-import { BaseColor, HexCode, HexCode6, HexCode8 } from "../type";
+import { BaseColor, HexCode, HexCode6, HexCode8 } from "..";
 
 export const isUndefined = (input: unknown): input is undefined =>
   typeof input === "undefined"

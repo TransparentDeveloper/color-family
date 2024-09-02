@@ -1,4 +1,4 @@
-import { HexCode, HexCode6, HexCode8, HSLA, RGBA } from "../type"
+import { HexCode, HexCode6, HexCode8, HSLA, RGBA } from '..'
 import { isHexCode6, isHexCode8 } from "./type-guard"
 
 export const generateRandomHexCode8 = (): HexCode8 => {

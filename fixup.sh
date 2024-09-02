@@ -1,11 +1,10 @@
-cat >dist/cjs/package.json <<!EOF
-{
-    "type": "commonjs"
-}
-!EOF
+cp dist/mjs/index.js dist/mjs/index.mjs
+cp dist/cjs/index.js dist/cjs/index.cjs
 
-cat >dist/esm/package.json <<!EOF
-{
-    "type": "module"
-}
-!EOF
+rm -rf dist/mjs/index.js dist/cjs/index.js
+
+
+cp dist/mjs/index.d.ts dist/mjs/index.d.mts
+cp dist/cjs/index.d.ts dist/cjs/index.d.cts
+
+rm -rf dist/mjs/index.d.ts dist/cjs/index.d.ts
