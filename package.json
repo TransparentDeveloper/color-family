@@ -2,6 +2,7 @@
   "name": "color-family",
   "version": "0.0.4",
   "description": "Provides a range of color families for application design.",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -9,8 +10,8 @@
         "default": "./dist/cjs/index.cjs"
       },
       "import": {
-        "types": "./dist/esm/index.d.mts",
-        "default": "./dist/esm/index.mjs"
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
       }
     }
   },
