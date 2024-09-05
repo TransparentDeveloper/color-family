@@ -1,18 +1,16 @@
+import { generateRandomInteger, shallowCopy } from './functions/common.js'
+import { isBaseColor, isHexCode, isUndefined } from './functions/type-guard.js'
 import {
-  isBaseColor,
-  isHexCode6,
-  isHexCode8,
-  isUndefined,
-} from './functions/type-guard'
-import {
-  convertHexCode6To8,
   convertHexToRGBA,
   convertHSLAToRGBA,
   convertRGBAToHex,
   convertRGBAToHSLA,
-  generateRandomHexCode8,
-  getMinimum,
-} from './functions/util'
+  generateHSLA,
+  generateRandomRGBA,
+  initRGBAWithBlack,
+} from './functions/util.js'
+
+export type CodeFormat = 'hexCode6' | 'hexCode8'
 
 export type HexCode6 = `#${string}`
 export type HexCode8 = `#${string}`
@@ -26,13 +24,6 @@ export type BaseColor =
   | 'blue'
   | 'indigo'
   | 'purple'
-export type ColorFamily =
-  | 'pastel'
-  | 'vivid'
-  | 'metallic'
-  | 'neon'
-  | 'monochrome'
-  | 'earth-tone'
 
 export type RGBA = {
   r: number
@@ -47,8 +38,6 @@ export type HSLA = {
   a: number
 }
 
-export type FormatOptions = ''
-
 const BASE_COLOR_CODE_MAP: Record<BaseColor, HexCode8> = {
   red: '#FF0000FF',
   orange: '#FFA500FF',
@@ -59,52 +48,50 @@ const BASE_COLOR_CODE_MAP: Record<BaseColor, HexCode8> = {
   purple: '#800080FF',
 }
 
-export class Color {
-  _hexCode: HexCode8
+export class ColorFamily {
+  _rgba: RGBA
+  _hsla: HSLA
 
   constructor(color?: BaseColor | HexCode6 | HexCode8) {
-    if (isUndefined(color)) this._hexCode = generateRandomHexCode8()
-    else if (isBaseColor(color)) this._hexCode = BASE_COLOR_CODE_MAP[color]
-    else if (isHexCode6(color)) this._hexCode = convertHexCode6To8(color, 'FF')
-    else if (isHexCode8(color)) this._hexCode = color
-    else {
-      throw new Error('Invalid color format provided.')
-    }
-  }
-  // 인스턴스 메서드로 변경
-  pastel(): HexCode8 {
-    const rgba = convertHexToRGBA(this._hexCode)
-    const hlsa = convertRGBAToHSLA(rgba)
+    let rgba = initRGBAWithBlack()
+    if (isUndefined(color)) rgba = generateRandomRGBA()
+    else if (isBaseColor(color))
+      rgba = convertHexToRGBA(BASE_COLOR_CODE_MAP[color])
+    else if (isHexCode(color)) rgba = convertHexToRGBA(color)
+    else throw new Error('Invalid color format provided.')
 
-    const sPastel = getMinimum([hlsa.s * 0.5, 100])
-    const lPastel = getMinimum([hlsa.l + 20, 100])
+    this._rgba = rgba
 
-    const rgbaPastel = convertHSLAToRGBA({
-      ...hlsa,
-      s: sPastel,
-      l: lPastel,
-    })
-    return convertRGBAToHex(rgbaPastel)
+    const hsla = convertRGBAToHSLA(rgba)
+    this._hsla = hsla
   }
-  // vivid(): HexCode8 {
-  //   return this._hexCode;
-  // }
-  // metallic(): HexCode8 {
-  //   return this._hexCode;
-  // }
-  // neon(): HexCode8 {
-  //   return this._hexCode;
-  // }
-  // monochrome(): HexCode8 {
-  //   return this._hexCode;
-  // }
-  // earthTone(): HexCode8{
-  //   return this._hexCode;
-  // }
-  toString(): string {
-    return this._hexCode
+  pastel(format: CodeFormat = 'hexCode6') {
+    const hsla = shallowCopy(this._hsla)
+
+    const standardS = 60
+    const sOffset = 3
+
+    const standardL = 80
+    const lOffset = 4
+
+    const pastelH = hsla.h
+    const pastelS = generateRandomInteger(
+      standardS + sOffset,
+      standardS - sOffset
+    )
+    const pastelL = generateRandomInteger(
+      standardL + lOffset,
+      standardL - lOffset
+    )
+
+    const pastelHSLA = generateHSLA(pastelH, pastelS, pastelL, hsla.a)
+    const pastelRGBA = convertHSLAToRGBA(pastelHSLA)
+    const hexCode = convertRGBAToHex(pastelRGBA, format)
+
+    return hexCode
   }
-  static from(color?: BaseColor | HexCode6 | HexCode8): Color {
-    return new Color(color)
+
+  static from(color?: BaseColor | HexCode6 | HexCode8): ColorFamily {
+    return new ColorFamily(color)
   }
 }
