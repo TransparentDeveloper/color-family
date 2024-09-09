@@ -49,8 +49,8 @@ const BASE_COLOR_CODE_MAP: Record<BaseColor, HexCode8> = {
 }
 
 export class ColorFamily {
-  _rgba: RGBA
-  _hsla: HSLA
+  private _rgba: RGBA
+  private _hsla: HSLA
 
   constructor(color?: BaseColor | HexCode6 | HexCode8) {
     let rgba = initRGBAWithBlack()
