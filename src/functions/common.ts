@@ -47,3 +47,9 @@ export const shallowCopy = <T extends object>(original: T) => {
   if (Array.isArray(original)) return original.slice(0) as T
   return Object.assign({}, original)
 }
+
+export const getRandomIntegerInRange = (standard: number, offset: number) => {
+  const max = standard + offset
+  const min = standard - offset
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}

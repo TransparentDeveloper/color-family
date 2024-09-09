@@ -1,4 +1,4 @@
-import { generateRandomInteger, shallowCopy } from './functions/common.js'
+import { getRandomIntegerInRange, shallowCopy } from './functions/common.js'
 import { isBaseColor, isHexCode, isUndefined } from './functions/type-guard.js'
 import {
   convertHexToRGBA,
@@ -65,24 +65,18 @@ export class ColorFamily {
     const hsla = convertRGBAToHSLA(rgba)
     this._hsla = hsla
   }
+
   pastel() {
     const hsla = shallowCopy(this._hsla)
 
     const standardS = 60
-    const sOffset = 3
-
     const standardL = 80
+    const sOffset = 3
     const lOffset = 4
 
     const pastelH = hsla.h
-    const pastelS = generateRandomInteger(
-      standardS + sOffset,
-      standardS - sOffset
-    )
-    const pastelL = generateRandomInteger(
-      standardL + lOffset,
-      standardL - lOffset
-    )
+    const pastelS = getRandomIntegerInRange(standardS, sOffset)
+    const pastelL = getRandomIntegerInRange(standardL, lOffset)
 
     const pastelHSLA = generateHSLA(pastelH, pastelS, pastelL, hsla.a)
     const pastelRGBA = convertHSLAToRGBA(pastelHSLA)
@@ -92,25 +86,17 @@ export class ColorFamily {
 
     return this
   }
-
   vivid() {
     const hsla = shallowCopy(this._hsla)
 
     const standardS = 98
-    const sOffset = 2
-
     const standardL = 50
+    const sOffset = 2
     const lOffset = 2
 
     const vividH = hsla.h
-    const vividS = generateRandomInteger(
-      standardS + sOffset,
-      standardS - sOffset
-    )
-    const vividL = generateRandomInteger(
-      standardL + lOffset,
-      standardL - lOffset
-    )
+    const vividS = getRandomIntegerInRange(standardS, sOffset)
+    const vividL = getRandomIntegerInRange(standardL, lOffset)
 
     const vividHSLA = generateHSLA(vividH, vividS, vividL, hsla.a)
     const vividRGBA = convertHSLAToRGBA(vividHSLA)
@@ -120,25 +106,17 @@ export class ColorFamily {
 
     return this
   }
-
   neon() {
     const hsla = shallowCopy(this._hsla)
 
     const standardS = 92
-    const sOffset = 2
-
     const standardL = 60
+    const sOffset = 2
     const lOffset = 1
 
     const neonH = hsla.h
-    const neonS = generateRandomInteger(
-      standardS + sOffset,
-      standardS - sOffset
-    )
-    const neonL = generateRandomInteger(
-      standardL + lOffset,
-      standardL - lOffset
-    )
+    const neonS = getRandomIntegerInRange(standardS, sOffset)
+    const neonL = getRandomIntegerInRange(standardL, lOffset)
 
     const neonHSLA = generateHSLA(neonH, neonS, neonL, hsla.a)
     const neonRGBA = convertHSLAToRGBA(neonHSLA)
