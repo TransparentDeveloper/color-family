@@ -65,7 +65,7 @@ export class ColorFamily {
     const hsla = convertRGBAToHSLA(rgba)
     this._hsla = hsla
   }
-  pastel(format: CodeFormat = 'hexCode6') {
+  pastel() {
     const hsla = shallowCopy(this._hsla)
 
     const standardS = 60
@@ -86,9 +86,15 @@ export class ColorFamily {
 
     const pastelHSLA = generateHSLA(pastelH, pastelS, pastelL, hsla.a)
     const pastelRGBA = convertHSLAToRGBA(pastelHSLA)
-    const hexCode = convertRGBAToHex(pastelRGBA, format)
 
-    return hexCode
+    this._hsla = pastelHSLA
+    this._rgba = pastelRGBA
+
+    return this
+  }
+
+  getHexCode(codeFormat: CodeFormat = 'hexCode6') {
+    return convertRGBAToHex(this._rgba, codeFormat)
   }
 
   static from(color?: BaseColor | HexCode6 | HexCode8): ColorFamily {
