@@ -1,6 +1,6 @@
 {
   "name": "color-family",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Provides a range of color families for application design.",
   "type": "module",
   "exports": {
