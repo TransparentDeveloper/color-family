@@ -93,6 +93,34 @@ export class ColorFamily {
     return this
   }
 
+  vivid() {
+    const hsla = shallowCopy(this._hsla)
+
+    const standardS = 98
+    const sOffset = 2
+
+    const standardL = 50
+    const lOffset = 2
+
+    const vividH = hsla.h
+    const vividS = generateRandomInteger(
+      standardS + sOffset,
+      standardS - sOffset
+    )
+    const vividL = generateRandomInteger(
+      standardL + lOffset,
+      standardL - lOffset
+    )
+
+    const vividHSLA = generateHSLA(vividH, vividS, vividL, hsla.a)
+    const vividRGBA = convertHSLAToRGBA(vividHSLA)
+
+    this._hsla = vividHSLA
+    this._rgba = vividRGBA
+
+    return this
+  }
+
   getHexCode(codeFormat: CodeFormat = 'hexCode6') {
     return convertRGBAToHex(this._rgba, codeFormat)
   }
