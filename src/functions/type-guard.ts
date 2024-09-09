@@ -4,7 +4,7 @@ export const isUndefined = (input: unknown): input is undefined =>
   typeof input === 'undefined'
 
 export const isHexCode = (input: unknown): input is HexCode =>
-  typeof input === 'string' && input[0].startsWith('#')
+  typeof input === 'string' && /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(input)
 
 export const isHexCode6 = (input: unknown): input is HexCode6 =>
   isHexCode(input) && input.length === 1 + 6
