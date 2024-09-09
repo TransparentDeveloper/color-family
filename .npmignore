@@ -20,3 +20,6 @@ npm-debug.log
 /src
 fixup.sh
 tsconfig-*.json
+
+.prettier*
+eslint*.**.*
