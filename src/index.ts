@@ -121,6 +121,34 @@ export class ColorFamily {
     return this
   }
 
+  neon() {
+    const hsla = shallowCopy(this._hsla)
+
+    const standardS = 92
+    const sOffset = 2
+
+    const standardL = 60
+    const lOffset = 1
+
+    const neonH = hsla.h
+    const neonS = generateRandomInteger(
+      standardS + sOffset,
+      standardS - sOffset
+    )
+    const neonL = generateRandomInteger(
+      standardL + lOffset,
+      standardL - lOffset
+    )
+
+    const neonHSLA = generateHSLA(neonH, neonS, neonL, hsla.a)
+    const neonRGBA = convertHSLAToRGBA(neonHSLA)
+
+    this._hsla = neonHSLA
+    this._rgba = neonRGBA
+
+    return this
+  }
+
   getHexCode(codeFormat: CodeFormat = 'hexCode6') {
     return convertRGBAToHex(this._rgba, codeFormat)
   }
