@@ -32,6 +32,8 @@ export type BaseColor =
   | 'blue'
   | 'indigo'
   | 'purple'
+  | 'black'
+  | 'white'
 
 export type RGBA = {
   r: number
@@ -57,6 +59,8 @@ export class ColorFamily {
     blue: '#0000FFFF',
     indigo: '#4B0082FF',
     purple: '#800080FF',
+    black: '#000000FF',
+    white: '#FFFFFFFF',
   } as const
 
   /* ------------ [private variable] ------------ */
@@ -73,7 +77,6 @@ export class ColorFamily {
       rgba = this._generateRandomRGBA()
     } else if (isBaseColor(color)) {
       const hexCode = ColorFamily.BASE_COLOR_CODE_MAP[color]
-      console.log(hexCode)
       rgba = this._convertHexToRGBA(hexCode)
     } else if (isHexCode(color)) {
       rgba = this._convertHexToRGBA(color)
