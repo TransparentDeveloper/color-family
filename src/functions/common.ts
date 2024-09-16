@@ -20,7 +20,7 @@ export const normalize = (value: number, max: number, min: number = 0) => {
   return result
 }
 
-export const getMinimum = (values: number[]): number => {
+export const getMinimum = (...values: number[]): number => {
   if (values.length === 0) throw new Error('Array cannot be empty.')
 
   let minimum = Number.MAX_SAFE_INTEGER
@@ -30,7 +30,7 @@ export const getMinimum = (values: number[]): number => {
   return minimum
 }
 
-export const getMaximum = (values: number[]): number => {
+export const getMaximum = (...values: number[]): number => {
   if (values.length === 0) throw new Error('Array cannot be empty.')
 
   let maximum = Number.MIN_SAFE_INTEGER
