@@ -51,7 +51,7 @@ export type HSLA = {
 export class ColorFamily {
   /* ------------ [public variable] ------------ */
 
-  static BASE_COLOR_CODE_MAP: Record<BaseColor, HexCode8> = {
+  static CF_BASE_COLOR: Record<BaseColor, HexCode8> = {
     red: '#FF0000FF',
     orange: '#FFA500FF',
     yellow: '#FFFF00FF',
@@ -75,7 +75,7 @@ export class ColorFamily {
     if (isUndefined(color)) {
       rgba = this._generateRandomRGBA()
     } else if (isBaseColor(color)) {
-      const hexCode = ColorFamily.BASE_COLOR_CODE_MAP[color]
+      const hexCode = ColorFamily.CF_BASE_COLOR[color]
       rgba = this._convertHexToRGBA(hexCode)
     } else if (isHexCode(color)) {
       rgba = this._convertHexToRGBA(color)
