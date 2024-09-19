@@ -66,7 +66,6 @@ export class ColorFamily {
   /* ------------ [private variable] ------------ */
 
   private _rgba: RGBA
-  private _hsla: HSLA
 
   /* ------------ [public method] ------------ */
 
@@ -83,72 +82,61 @@ export class ColorFamily {
     } else throw new Error('Invalid color format provided.')
 
     this._rgba = rgba
-
-    const h = this._getHueFromRGBA(rgba)
-    const s = this._getSaturationFromRGBA(rgba)
-    const l = this._getLightnessFromRGBA(rgba)
-    const a = rgba.a
-    const hsla = this._generateHSLA(h, s, l, a)
-
-    this._hsla = hsla
   }
 
   pastel() {
-    const hsla = shallowCopy(this._hsla)
+    const rgba = shallowCopy(this._rgba)
 
     const standardS = 60
     const standardL = 80
     const sOffset = 3
     const lOffset = 4
 
-    const pastelH = hsla.h
+    const pastelH = this._getHueFromRGBA(rgba)
     const pastelS = getRandomIntegerInRange(standardS, sOffset)
     const pastelL = getRandomIntegerInRange(standardL, lOffset)
 
-    const pastelHSLA = this._generateHSLA(pastelH, pastelS, pastelL, hsla.a)
+    const pastelHSLA = this._generateHSLA(pastelH, pastelS, pastelL, rgba.a)
     const pastelRGBA = this._convertHSLAToRGBA(pastelHSLA)
 
-    this._hsla = pastelHSLA
     this._rgba = pastelRGBA
 
     return this
   }
   vivid() {
-    const hsla = shallowCopy(this._hsla)
+    const rgba = shallowCopy(this._rgba)
 
     const standardS = 98
     const standardL = 50
     const sOffset = 2
     const lOffset = 2
 
-    const vividH = hsla.h
+    const vividH = this._getHueFromRGBA(rgba)
     const vividS = getRandomIntegerInRange(standardS, sOffset)
     const vividL = getRandomIntegerInRange(standardL, lOffset)
 
-    const vividHSLA = this._generateHSLA(vividH, vividS, vividL, hsla.a)
+    const vividHSLA = this._generateHSLA(vividH, vividS, vividL, rgba.a)
     const vividRGBA = this._convertHSLAToRGBA(vividHSLA)
 
-    this._hsla = vividHSLA
     this._rgba = vividRGBA
 
     return this
   }
   neon() {
-    const hsla = shallowCopy(this._hsla)
+    const rgba = shallowCopy(this._rgba)
 
     const standardS = 92
     const standardL = 60
     const sOffset = 2
     const lOffset = 1
 
-    const neonH = hsla.h
+    const neonH = this._getHueFromRGBA(rgba)
     const neonS = getRandomIntegerInRange(standardS, sOffset)
     const neonL = getRandomIntegerInRange(standardL, lOffset)
 
-    const neonHSLA = this._generateHSLA(neonH, neonS, neonL, hsla.a)
+    const neonHSLA = this._generateHSLA(neonH, neonS, neonL, rgba.a)
     const neonRGBA = this._convertHSLAToRGBA(neonHSLA)
 
-    this._hsla = neonHSLA
     this._rgba = neonRGBA
 
     return this
@@ -302,24 +290,42 @@ export class ColorFamily {
     return hue
   }
 
-  private _getSaturationFromRGBA(rgba: RGBA) {
-    const { r, g, b } = rgba
-    const max = getMaximum(r, g, b)
-    const min = getMinimum(r, g, b)
-    const delta = max - min
+  /**
+   * Calculates the saturation value from RGBA color values.
+   *
+   * @private
+   * @param {RGBA} rgba - The RGBA color values.
+   * @returns {number} The saturation value, which ranges from 0 to 1.
+   *
+   * @note Planned for future use
+   */
+  // private _getSaturationFromRGBA(rgba: RGBA) {
+  //   const { r, g, b } = rgba
+  //   const max = getMaximum(r, g, b)
+  //   const min = getMinimum(r, g, b)
+  //   const delta = max - min
 
-    if (isEqual(max, min)) return 0
+  //   if (isEqual(max, min)) return 0
 
-    const lightness = (max + min) / 2
-    const saturation = delta / (1 - Math.abs(2 * lightness - 1))
-    return saturation
-  }
+  //   const lightness = (max + min) / 2
+  //   const saturation = delta / (1 - Math.abs(2 * lightness - 1))
+  //   return saturation
+  // }
 
-  private _getLightnessFromRGBA(rgba: RGBA) {
-    const { r, g, b } = rgba
-    const max = getMaximum(r, g, b)
-    const min = getMinimum(r, g, b)
-    const lightness = (max + min) / 2
-    return lightness
-  }
+  /**
+   * Calculates the lightness value from RGBA color values.
+   *
+   * @private
+   * @param {RGBA} rgba - The RGBA color values.
+   * @returns {number} The lightness value, which ranges from 0 to 1.
+   *
+   * @note Planned for future use
+   */
+  // private _getLightnessFromRGBA(rgba: RGBA) {
+  //   const { r, g, b } = rgba
+  //   const max = getMaximum(r, g, b)
+  //   const min = getMinimum(r, g, b)
+  //   const lightness = (max + min) / 2
+  //   return lightness
+  // }
 }
