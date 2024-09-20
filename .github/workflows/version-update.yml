@@ -4,29 +4,18 @@ on:
   push:
     branches:
       - main
-  workflow_run:
-    workflows: ['Build and Test']
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ['Build and Test']
+  #   types:
+  #     - completed
 
 jobs:
   version-update:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/main' &&
-      ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3
 
       - name: Get update type
-        env:
-          CURRENT_VERSION: ${{ env.current_version }}
         run: |
-          PR_TITLE=$(jq --raw-output .pull_request.title "$GITHUB_EVENT_PATH")
-
-          echo "PR Title: $PR_TITLE"
-
-          # if [[ $PR_TITLE == *"[patch-update]"* ]]; then
-          #   UPDATE_TYPE="patch"
-          # if [[ $PR_TITLE == *"[minor-update]"* ]]; then
-          #   UPDATE_TYPE="minor"
+          echo "PR Title: echo "PR Context: ${{ toJson(github.event) }}"
