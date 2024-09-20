@@ -18,6 +18,5 @@ jobs:
 
       - name: Get update type
         run: |
-          PR_TITLE=$GITHUB_EVENT_PATH
-
-          echo "$GITHUB_EVENT_PATH"
+          PR_TITLE=$(jq --raw-output .pull_request.title "$GITHUB_EVENT_PATH")
+          echo "$PR_TITLE"
