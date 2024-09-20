@@ -1,21 +1,30 @@
 name: Version Update
 
 on:
-  push:
-    branches:
-      - main
-  workflow_run:
-    workflows: ['Build and Test']
+  pull_request:
     types:
-      - completed
+      - auto_merge_enabled
 
 jobs:
   version-update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout current branch
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Get update type
+      - name: Get main branch's version from package.json
+        id: get-version
         run: |
-          cat $GITHUB_EVENT_PATH
+          CURRENT_BRANCH=$(git branch --show-current)
+          MAIN_BRANCH=main
+
+          git checkout $MAIN_BRANCH
+          MAIN_VERSION=$(node -p "require('./package.json').version")
+          git checkout $CURRENT_BRANCH
+
+          echo "MAIN_VERSION=$MAIN_VERSION" >> $GITHUB_ENV
+
+      - name: Get PR Title
+        env:
+          MAIN_VERSION: ${{ env.MAIN_VERSION }}
+        run: |
+          echo "Main branch version is $MAIN_VERSION"
