@@ -1,3 +1,4 @@
+// some comment
 import {
   generateRandomInteger,
   getMaximum,
