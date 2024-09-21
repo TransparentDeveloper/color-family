@@ -1,4 +1,4 @@
-# color-family &middot; [![Latest Version](https://img.shields.io/badge/latest_version-0.1.3-orange.svg)](https://github.com/TransparentDeveloper/color-family/tree/main-0.1.3) [![MIT License](https://img.shields.io/badge/License-MIT-orange.svg)](https://github.com/TransparentDeveloper/color-family/blob/main/LICENSE)
+# color-family &middot; [![Latest Version](https://img.shields.io/badge/latest_version-0.1.5-orange.svg)](https://github.com/TransparentDeveloper/color-family/tree/main-0.1.5) [![MIT License](https://img.shields.io/badge/License-MIT-orange.svg)](https://github.com/TransparentDeveloper/color-family/blob/main/LICENSE)
 
 🖍️ We will find the color you want.
 
