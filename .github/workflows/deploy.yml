@@ -2,51 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  update-version-on-README:
+  update-readme-and-deploy:
     permissions:
       contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Get Version on package.json
-        run: |
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
-
-      - name: Get Version on README.md
-        run: |
-          README_VERSION=$(grep -oP '(?<=latest_version-)[0-9]+\.[0-9]+\.[0-9]+' README.md)
-          echo "README_VERSION=$README_VERSION" >> $GITHUB_ENV
-          echo "README version: $README_VERSION"
-
-      - name: Update README.md After Compare Version
-        if: env.PACKAGE_VERSION != env.README_VERSION
-        env:
-          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
-          README_VERSION: ${{ env.README_VERSION }}
-        run: |
-          echo "Versions are different. Updating README.md..."
-          sed -i "s/latest_version-${{ env.README_VERSION }}/latest_version-${{ env.PACKAGE_VERSION }}/g" README.md
-          sed -i "s/color-family\/tree\/main-${{ env.README_VERSION }}/color-family\/tree\/main-${{ env.PACKAGE_VERSION }}/g" README.md
-
-      - name: Commit and push changes
-        if: env.PACKAGE_VERSION != env.README_VERSION
-        env:
-          PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}
-          README_VERSION: ${{ env.README_VERSION }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "docs: update README version to ${{ env.PACKAGE_VERSION }}"
-          git push
-
-  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -54,16 +15,32 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Get package version
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-      - name: Build Project
+      - name: Update README.md
+        run: |
+          README_VERSION=$(grep -oP '(?<=latest_version-)[0-9]+\.[0-9]+\.[0-9]+' README.md)
+          if [ "$PACKAGE_VERSION" != "$README_VERSION" ]; then
+            sed -i "s/latest_version-$README_VERSION/latest_version-$PACKAGE_VERSION/g" README.md
+            sed -i "s/color-family\/tree\/main-$README_VERSION/color-family\/tree\/main-$PACKAGE_VERSION/g" README.md
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "docs: update README version to $PACKAGE_VERSION"
+            git push
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
         run: npm run build
 
       - name: Deploy to NPM
+        run: npm publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
-        run: |
-          npm publish
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
